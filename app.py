@@ -3,6 +3,10 @@ import os
 from xhtml2pdf import pisa
 from datetime import datetime
 
+# Ensure invoices/ folder exists on startup
+if not os.path.exists("invoices"):
+    os.makedirs("invoices")
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -24,7 +28,6 @@ def generate_invoice():
 
     # Render the invoice HTML
     rendered = render_template('invoice.html', client=client, items=zip(items, prices), total=total, datetime=datetime)
-
 
     # Generate PDF using xhtml2pdf
     with open(filepath, "w+b") as result_file:
